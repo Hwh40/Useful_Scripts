@@ -1,3 +1,19 @@
+"""
+Author: Henry Hall
+Prints data from a specified serial port to a live graph. Session is 
+ended when the ENTER key is hit. 
+
+Data must be printed to the serial port in form:
+'S'
+'\n'
+'data1'
+'\n'
+'data2'
+'\n'
+...
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import serial
