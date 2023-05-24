@@ -7,11 +7,19 @@ sigma = 0.1
 
 xs = np.arange(0, 10, dt)
 
-def spectrum(x, fs, oversample):
+def signal(xs):
+    ys = np.sin(2*np.pi*xs) + np.random.normal(mu, sigma, len(xs))
+    return ys
+
+def spectrum(x, fs, oversample, is_hamming):
 
     N = len(x)
-    w = np.hamming(N)
-    g = x * w
+
+    if is_hamming:
+        w = np.hamming(N)
+        g = x * w
+    else:
+        g = x
     
     y = np.zeros(N * oversample)
     y[0:N] = g
@@ -23,10 +31,6 @@ def spectrum(x, fs, oversample):
     print(f'Max frequency = {fs} Hz')
     print(f'Frequency resolution = {fs / (N * oversample)} Hz')
     return Y,f 
-    
-def signal(xs):
-    ys = np.sin(2*np.pi*xs) + np.random.normal(mu, sigma, len(xs))
-    return ys
 
 def plot(fourier, freq):
     f, (ax1, ax2, ax3) = plt.subplots(1, 3, sharey = True)
@@ -45,10 +49,9 @@ def plot(fourier, freq):
 
 def main():
     ys = signal(xs)
-    fourier, freq = (spectrum(ys, 1/dt, 10))
+    fourier, freq = (spectrum(ys, 1/dt, 10, is_hamming = False))
     plot(fourier,freq)
     
-
 if __name__ == '__main__':
     main()
     plt.show()
